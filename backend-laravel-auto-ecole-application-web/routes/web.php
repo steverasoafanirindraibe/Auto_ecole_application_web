@@ -14,4 +14,6 @@ use App\Http\Controllers\StudentController;
 |
 */
 
-Route::get('/student/list', [StudentController::class, 'listStudent']);
+Route::get('api/student/list', [StudentController::class, 'listStudent']);
+Route::post('api/student/add', [StudentController::class, 'addNewStudent']);
+
