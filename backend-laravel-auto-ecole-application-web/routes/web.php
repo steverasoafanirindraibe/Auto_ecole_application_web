@@ -13,7 +13,3 @@ use App\Http\Controllers\StudentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('api/student/list', [StudentController::class, 'listStudent']);
-Route::post('api/student/add', [StudentController::class, 'addNewStudent']);
-
