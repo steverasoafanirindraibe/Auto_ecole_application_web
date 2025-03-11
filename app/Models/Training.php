@@ -49,7 +49,7 @@ class Training extends Model
         'price' => 'required|numeric|min:0',
         'category_id' => 'required|exists:categories,id',
         'schedule' => 'nullable',
-        'registration_end_date' => 'required|date|after_or_equal:start_date',
+        'registration_end_date' => 'required|date|after_or_equal:today',
     ];
 
     public static $messages = [
@@ -74,7 +74,7 @@ class Training extends Model
         'category_id.exists' => 'La catégorie sélectionnée est invalide.',        
         'registration_end_date.required' => 'La date de fin d\'inscription est requise.',
         'registration_end_date.date' => 'La date de fin d\'inscription doit être une date valide.',
-        'registration_end_date.after_or_equal' => 'La date de fin d\'inscription doit être égale ou postérieure à la date de début.',
+        'registration_end_date.after_or_equal' => 'La date de fin d\'inscription doit être égale ou postérieure à aujoudh\'ui ',
     ];
 
     public static function validate($data)

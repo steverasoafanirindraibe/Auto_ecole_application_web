@@ -17,7 +17,7 @@ class Category extends Model
         'name',
         'description',
         'age_minimum',
-        'prerequisites',
+        'prerequisite_category_id',
     ];
 
     // relation père fils, table père ici

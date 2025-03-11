@@ -44,8 +44,8 @@ class FileUploadService
 
         // Génère un nom unique pour le fichier
         $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-        // Stocke le fichier dans le répertoire spécifié (disk "public") accessible via le front par $imageUrl = asset('storage/' . $path);
+// php artisan storage:link a faire
+       
 
         $path = $file->storeAs($directory, $filename, 'public');
 

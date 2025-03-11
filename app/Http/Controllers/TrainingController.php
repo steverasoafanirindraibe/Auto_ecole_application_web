@@ -22,18 +22,37 @@ class TrainingController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
-        // Validation des données
         $validator = Training::validate($data);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Création de la formation
         $training = Training::create($data);
+        $training->load('category'); // Charger la relation category
 
         return response()->json(['message' => 'Formation créée avec succès.', 'training' => $training], 201);
+    }
+
+
+    /**
+     * Mettre à jour une formation existante.
+     */
+
+    public function update(Request $request, $id)
+    {
+        $training = Training::findOrFail($id);
+        $data = $request->all();
+        $validator = Training::validate($data);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $training->update($data);
+        $training->load('category'); // Charger la relation category
+
+        return response()->json(['message' => 'Formation mise à jour avec succès.', 'training' => $training], 200);
     }
 
     /**
@@ -45,26 +64,7 @@ class TrainingController extends Controller
         return response()->json($training, 200);
     }
 
-    /**
-     * Mettre à jour une formation existante.
-     */
-    public function update(Request $request, $id)
-    {
-        $training = Training::findOrFail($id);
-        $data = $request->all();
-
-        // Validation des données
-        $validator = Training::validate($data);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        // Mise à jour de la formation
-        $training->update($data);
-
-        return response()->json(['message' => 'Formation mise à jour avec succès.', 'training' => $training], 200);
-    }
+   
 
     /**
      * Supprimer une formation.
@@ -77,5 +77,23 @@ class TrainingController extends Controller
         $training->delete();
 
         return response()->json(['message' => 'Formation supprimée avec succès.'], 200);
+    }
+
+    public function getCategories()
+    {
+        $categories = \App\Models\Category::all(['id', 'name']);
+        return response()->json($categories, 200);
+    }
+
+    /**
+     * Récupérer toutes les formations en cours sans pagination.
+     */
+    public function getActiveTrainings()
+    {
+        $trainings = Training::where('start_date', '>=', now()->startOfDay())
+            ->where('registration_end_date', '>=', now()->startOfDay())
+            ->with('category')
+            ->get();
+        return response()->json(['trainings' => $trainings], 200);
     }
 }

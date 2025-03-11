@@ -37,11 +37,11 @@ class ImageUploadService{
         $filename = ($prefix ? $prefix . '_' : '') . Str::random(10) . '.' . $file->getClientOriginalExtension();
 
         // Sauvegarder dans storage/app/public/{folder}
-        $path = $file->storeAs('public/' . $folder, $filename);
+        $path = $file->storeAs( $folder, $filename,'public');
 
         // Retourner le chemin relatif à "storage" (pour servir l'image) accessible via le front par $imageUrl = asset('storage/' . $path);
 
-        return str_replace('public/', '', $path);
+        return $path;
     }
 
     /**
@@ -52,9 +52,9 @@ class ImageUploadService{
      */
     public static function deleteImage(?string $imagePath): void
     {
-        if ($imagePath && Storage::exists('public/' . $imagePath)) {
-            Storage::delete('public/' . $imagePath);
-        }
+        if ($imagePath && Storage::disk('public')->exists( $imagePath)) {
+            Storage::disk('public')->delete( $imagePath);
+        }        
     }
 
     /**

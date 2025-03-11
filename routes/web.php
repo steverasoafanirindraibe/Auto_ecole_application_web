@@ -2,17 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-// Charger les routes API
-Route::prefix('api')->middleware('api')->group(function () {
-    require base_path('routes/api/student.php');
-    
-});
-
-// Charger ici les routes Web
-
-
-// Route d'accueil
+// Routes Web uniquement
 Route::get('/', function () {
     return view('welcome');
 });
